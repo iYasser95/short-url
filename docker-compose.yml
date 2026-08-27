@@ -1,0 +1,25 @@
+services:
+  shorturl:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/shorturl
+      SPRING_DATASOURCE_USERNAME: shorturl
+      SPRING_DATASOURCE_PASSWORD: shorturl
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: shorturl
+      POSTGRES_USER: shorturl
+      POSTGRES_PASSWORD: shorturl
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
