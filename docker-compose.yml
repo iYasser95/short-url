@@ -7,6 +7,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/shorturl
       SPRING_DATASOURCE_USERNAME: shorturl
       SPRING_DATASOURCE_PASSWORD: shorturl
+      SHORTURL_BASE_URL: http://localhost:8080
     depends_on:
       - postgres
 
