@@ -7,6 +7,8 @@ info:
 paths:
   /short-urls:
     post:
+      tags:
+        - ShortUrls
       operationId: createShortUrl
       summary: Create a short URL
 
@@ -24,6 +26,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateShortUrlResponse'
+
+  /{code}:
+    get:
+      tags:
+        - ShortUrls
+      operationId: redirectShortUrl
+      summary: Redirect to the original URL
+
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '302':
+          description: Redirect to original URL
+          headers:
+            Location:
+              description: Original URL
+              schema:
+                type: string
+                format: uri
+
+        '404':
+          description: Short URL not found
 
 components:
   schemas:

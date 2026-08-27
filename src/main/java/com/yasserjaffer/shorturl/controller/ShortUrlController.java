@@ -6,6 +6,7 @@ import com.yasserjaffer.shorturl.model.CreateShortUrlResponse;
 import com.yasserjaffer.shorturl.service.ShortUrlService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import java.net.URI;
 
 @RestController
 public class ShortUrlController implements ShortUrlsApi {
@@ -21,4 +22,13 @@ public class ShortUrlController implements ShortUrlsApi {
         return ResponseEntity.ok(shortUrlService.create(request));
     }
 
+    @Override
+    public ResponseEntity<Void> redirectShortUrl(String code) {
+        URI originalUrl = shortUrlService.getOriginalUrl(code);
+
+        return ResponseEntity
+                .status(302)
+                .location(originalUrl)
+                .build();
+    }
 }

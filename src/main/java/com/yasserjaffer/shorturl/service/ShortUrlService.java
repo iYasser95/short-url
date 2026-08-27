@@ -58,6 +58,15 @@ public class ShortUrlService {
 
     }
 
+    public URI getOriginalUrl(String code) {
+        ShortUrlEntity entity = shortUrlRepository.findByCode(code)
+                .orElseThrow(()-> new RuntimeException("Short URL not found"));
+
+        log.info("Original URL: {}", entity.getUrl());
+
+        return URI.create(entity.getUrl());
+    }
+
     private String generateCode() {
         StringBuilder code = new StringBuilder(6);
 
