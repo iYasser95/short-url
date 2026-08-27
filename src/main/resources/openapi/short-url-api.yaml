@@ -1,0 +1,46 @@
+openapi: 3.0.3
+
+info:
+  title: Short URL API
+  version: 1.0.0
+
+paths:
+  /short-urls:
+    post:
+      operationId: createShortUrl
+      summary: Create a short URL
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShortUrlRequest'
+
+      responses:
+        '201':
+          description: Short URL created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateShortUrlResponse'
+
+components:
+  schemas:
+    CreateShortUrlRequest:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+
+    CreateShortUrlResponse:
+      type: object
+      required:
+        - shortUrl
+      properties:
+        shortUrl:
+          type: string
+          format: uri
