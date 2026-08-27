@@ -15,5 +15,11 @@ spring:
     hibernate:
       ddl-auto: validate
 
-  shorturl:
-    base-url: ${SHORTURL_BASE_URL:http://localhost:8080}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+
+shorturl:
+  base-url: ${SHORTURL_BASE_URL:http://localhost:8080}
+  cache-limit: ${REDIS_CACHE_LIMIT_BY_HOUR:1}

@@ -7,7 +7,8 @@ import com.yasserjaffer.shorturl.repository.ShortUrlRepository;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.redis.core.StringRedisTemplate;
+import java.time.Duration;
 import java.net.URI;
 import java.security.SecureRandom;
 import java.util.Optional;
@@ -18,13 +19,19 @@ public class ShortUrlService {
     @Value("${shorturl.base-url}")
     private String baseUrl;
 
+    @Value("${shorturl.cache-limit}")
+    private int cacheLimitHours;
+
+    private final StringRedisTemplate redisTemplate;
     private static final String BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final SecureRandom RANDOM = new SecureRandom();
 
     private final ShortUrlRepository shortUrlRepository;
 
-    public ShortUrlService(ShortUrlRepository shortUrlRepository) {
+    public ShortUrlService(ShortUrlRepository shortUrlRepository,
+                           StringRedisTemplate redisTemplate) {
         this.shortUrlRepository = shortUrlRepository;
+        this.redisTemplate = redisTemplate;
     }
 
     public CreateShortUrlResponse create(CreateShortUrlRequest request) {
@@ -59,11 +66,22 @@ public class ShortUrlService {
     }
 
     public URI getOriginalUrl(String code) {
+
+        String cachedUrl = redisTemplate.opsForValue().get(code);
+
+        if (cachedUrl != null) {
+            log.info("Cache hit for code: {}", code);
+            return URI.create(cachedUrl);
+        }
+
+        log.info("Cache miss for code: {}", code);
+
         ShortUrlEntity entity = shortUrlRepository.findByCode(code)
                 .orElseThrow(()-> new RuntimeException("Short URL not found"));
 
         log.info("Original URL: {}", entity.getUrl());
 
+        redisTemplate.opsForValue().set(code, entity.getUrl(), Duration.ofHours(cacheLimitHours));
         return URI.create(entity.getUrl());
     }
 
