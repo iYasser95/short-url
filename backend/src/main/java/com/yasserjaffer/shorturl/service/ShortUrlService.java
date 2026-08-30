@@ -72,6 +72,7 @@ public class ShortUrlService {
         entity.setUrl(url);
         entity.setExpiresAt(LocalDateTime.now().plusDays(expirationDays));
         shortUrlRepository.save(entity);
+        cacheShortUrl(entity);
 
         return new CreateShortUrlResponse()
                 .shortUrl(URI.create(baseUrl + "/" + code));
