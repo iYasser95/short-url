@@ -1,10 +1,13 @@
 import {useState } from 'react'
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
 function App() {
     const [url, setUrl] = useState('')
     const [shortUrl, setShortUrl] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault()
@@ -14,7 +17,7 @@ function App() {
       setShortUrl('')
 
       try {
-              const response = await fetch('http://localhost:8080/short-urls', {
+              const response = await fetch(`${apiBaseUrl}/short-urls`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
