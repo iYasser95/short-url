@@ -1,4 +1,5 @@
 import {useState } from 'react'
+import './App.css'
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -7,6 +8,7 @@ function App() {
     const [shortUrl, setShortUrl] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [copied, setCopied] = useState(false)
 
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -15,6 +17,7 @@ function App() {
       setLoading(true)
       setError('')
       setShortUrl('')
+      setCopied(false)
 
       try {
               const response = await fetch(`${apiBaseUrl}/short-urls`, {
@@ -40,33 +43,51 @@ function App() {
       }
     }
   return (
-    <main>
+    <main className="page">
+      <section className="card">
       <h1>Short URL</h1>
+      <p className="subtitle">
+        Turn logn links into short, shareable URLs.
+      </p>
 
       <form onSubmit={handleSubmit}>
         <input
         type="url"
+        placeholder="https://example.com"
         value={url}
         onChange={(event) => setUrl(event.target.value)}
+        required
         />
 
-        <button type ="submit" disabled={loading}>
+        <button type ="submit" disabled={loading || !url.trim()}>
           {loading ? 'Shortening...' : 'Shorten'}
         </button>
 
       </form>
       {shortUrl && (
-        <p>
-          Short URL: <a href={shortUrl}>{shortUrl}</a>
+        <div className="result">
+          <div>
+            <span className="result-label">Your short URL</span>
+            <a href={shortUrl}>{shortUrl}</a>
+          </div>
 
           <button
-          type="button"
-          onClick={() => navigator.clipboard.writeText(shortUrl)}>
-            Copy
+            type="button"
+            onClick={async () => {
+              await navigator.clipboard.writeText(shortUrl)
+              setCopied(true)
+            }}
+          >
+            {copied ? 'Copied' : 'Copy'}
           </button>
-        </p>
+        </div>
       )}
-      {error && <p>{error}</p>}
+      {error && (
+        <div className="error">
+          {error}
+        </div>
+      )}
+      </section>
     </main>
   )
 }
