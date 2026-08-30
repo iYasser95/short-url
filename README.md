@@ -155,7 +155,7 @@ sequenceDiagram
 
 If you want to follow the architecture evolution of this project, including the design decisions and changes made across each version, you can view the full project journey on my website:
 
-[yasserjaffer.com](https://yasserjaffer.com)
+[Short URL](https://yasserjaffer.com/projects/short-url)
 
 ## License
 
