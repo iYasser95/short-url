@@ -9,7 +9,7 @@ The service generates short URLs for long-form URLs and redirects users to the o
 ### Clone the repository
 
 ```bash
-git clone <>
+git clone https://github.com/iYasser95/short-url.git
 cd shorturl
 ```
 
