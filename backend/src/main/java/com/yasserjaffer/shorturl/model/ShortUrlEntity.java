@@ -3,6 +3,7 @@ package com.yasserjaffer.shorturl.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "short_url")
@@ -20,4 +21,7 @@ public class ShortUrlEntity {
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+    @Column(name = "expires_at")
+    private LocalDateTime expiresAt;
 }

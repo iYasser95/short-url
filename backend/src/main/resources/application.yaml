@@ -23,6 +23,7 @@ spring:
 shorturl:
   base-url: ${SHORTURL_BASE_URL:http://localhost:8080}
   cache-limit: ${REDIS_CACHE_LIMIT_BY_HOUR:1}
+  expiration-days: ${SHORTURL_EXPIRATION_DAYS:7}
 
 app:
   cors:
