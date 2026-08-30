@@ -19,6 +19,9 @@ public class ShortUrlController implements ShortUrlsApi {
 
     @Override
     public ResponseEntity<CreateShortUrlResponse> createShortUrl(CreateShortUrlRequest request) {
+        if (request.getUrl() == null || request.getUrl().toString().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(shortUrlService.create(request));
     }
 

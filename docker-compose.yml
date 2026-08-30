@@ -11,6 +11,15 @@ services:
       - postgres
       - redis
 
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - shorturl
+
   postgres:
     image: postgres:17
     env_file:
