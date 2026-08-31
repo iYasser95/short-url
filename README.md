@@ -30,6 +30,24 @@ docker compose up --build
 ```bash
 http://localhost:5173
 ```
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `SPRING_DATASOURCE_URL` | JDBC connection URL used by the backend to connect to Postgres. |
+| `SPRING_DATASOURCE_USERNAME` | Postgres username used by Spring Boot. |
+| `SPRING_DATASOURCE_PASSWORD` | Postgres password used by Spring Boot. |
+| `POSTGRES_DB` | Database created by the Postgres container. |
+| `POSTGRES_USER` | User created by the Postgres container. |
+| `POSTGRES_PASSWORD` | Password for the Postgres user. |
+| `SPRING_DATA_REDIS_HOST` | Redis hostname used by the backend. |
+| `SPRING_DATA_REDIS_PORT` | Redis port used by the backend. |
+| `REDIS_CACHE_LIMIT_BY_HOUR` | Controls the Redis cache-related hourly limit configured by the service. |
+| `SHORTURL_BASE_URL` | Base URL used when generating the final short URL. |
+| `SHORTURL_EXPIRATION_DAYS` | Number of days before a generated short URL expires. |
+| `SHORTURL_CLEANUP_CRON` | Cron expression controlling how often expired URLs are removed from Postgres. |
+| `APP_CORS_ALLOWED_ORIGIN` | Origin allowed to access the backend API through CORS. |
+| `VITE_API_BASE_URL` | Backend API URL used by the React web application. |
 
 ## Features
 
